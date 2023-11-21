@@ -124,18 +124,20 @@ public class Main {
 
 
         Scanner scanner = new Scanner(System.in);
+        instructions();
         while(true) {
             if(defeatedEnemies.contains(ozai)) {
-                System.out.println("You successfully defeated all enemies and won the game!");
+                System.out.println(cyanCode + "You successfully defeated all enemies and won the game!");
                 return;
             }
             int temp;
             printOutCharacters();
             info(avatar);
-            System.out.println(blueCode + "Choose action: \n1. Learn bending from teacher\n2. Fight enemy\n3. Exit");
+            System.out.println(blueCode + "Choose action: \n1. Learn bending from teacher\n2. Fight enemy\n3. Instructions\n4. Exit");
             switch (scanner.nextInt()) {
                 case 1:
                     System.out.println("Select teacher to learn from (by number): ");
+                    printOutTeachers();
                     temp = scanner.nextInt();
                     ICharacter teacher = teachers.get(temp - 1);
                     teacher.teach(avatar, getBending(teacher));
@@ -158,9 +160,7 @@ public class Main {
                             break;
                         default: avatar.setStrategy(new AirStrategy(avatar));
                     }
-                    System.out.println("Select enemy to fight (by number)");
-                    temp = scanner.nextInt();
-                    ICharacter enemy = enemies.get(temp - 1);
+                    ICharacter enemy = enemies.get(0);
                     if(avatar.attack(enemy)) {
                         System.out.println("You win!");
                         enemies.remove(0);
@@ -169,6 +169,9 @@ public class Main {
                     else System.out.println("You lose");
                     break;
                 case 3:
+                    instructions();
+                    break;
+                case 4:
                     return;
             }
         }
@@ -207,11 +210,7 @@ public class Main {
     }
 
     public static void printOutCharacters() {
-        System.out.println(greenCode + "Teachers: ");
-        for(int i = 0; i < teachers.size(); i++) {
-            ICharacter c = teachers.get(i);
-            System.out.println(greenCode + (i + 1) + ". " + c.getName() + " " + c.getBendingPower(""));
-        }
+        printOutTeachers();
 
         System.out.println(redCode + "Enemies: ");
         for(int i = 0; i < defeatedEnemies.size(); i++) {
@@ -224,4 +223,19 @@ public class Main {
         }
     }
 
+    public static void printOutTeachers() {
+        System.out.println(greenCode + "Teachers: ");
+        for(int i = 0; i < teachers.size(); i++) {
+            ICharacter c = teachers.get(i);
+            System.out.println(greenCode + (i + 1) + ". " + c.getName() + " " + c.getBendingPower(""));
+        }
+    }
+
+    public static void instructions() {
+        System.out.println(yellowCode + "Welcome to the fighting simulator. In this game your main purpose is to defeat Ozai." +
+                "\nBut to reach him you must defeat all the enemies on your way! " +
+                "\nYour bending abilities may be weak, so you have to learn some skills from teachers." +
+                "\nDon't forget to use right bending, your fire bending may be weak, but air bending could defeat the enemy." +
+                "\nGood luck!");
+    }
 }

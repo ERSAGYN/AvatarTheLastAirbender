@@ -1,6 +1,7 @@
 package org.example.characters.strategies;
 
 import org.example.bendings.adapter.FireAdapter;
+import org.example.bendings.adapter.WaterAdapter;
 import org.example.characters.ICharacter;
 
 public class WaterStrategy implements IAttackStrategy{
@@ -13,9 +14,9 @@ public class WaterStrategy implements IAttackStrategy{
     @Override
     public boolean attack(ICharacter character) {
         if(character.getBendingPower("water") > this.character.getBendingPower("water")) return false;
-        if(new FireAdapter(character, "fire").getBendingPower() > this.character.getBendingPower("water")) return false;
-        if(new FireAdapter(character, "earth").getBendingPower() > this.character.getBendingPower("water")) return false;
-        if(new FireAdapter(character, "air").getBendingPower() > this.character.getBendingPower("water")) return false;
+        if(new WaterAdapter(character, "fire").getBendingPower() > this.character.getBendingPower("water")) return false;
+        if(new WaterAdapter(character, "earth").getBendingPower() > this.character.getBendingPower("water")) return false;
+        if(new WaterAdapter(character, "air").getBendingPower() > this.character.getBendingPower("water")) return false;
         return true;
     }
 }
