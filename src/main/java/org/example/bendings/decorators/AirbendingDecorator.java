@@ -14,7 +14,7 @@ public class AirbendingDecorator extends BendingDecorator {
     @Override
     public void introduce() {
         super.introduce();
-        System.out.print(" an airbender");
+        System.out.print(" an airbender dias");
     }
 
     @Override
