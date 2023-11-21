@@ -3,7 +3,7 @@ package org.example.bendings.decorators;
 import org.example.bendings.IBending;
 import org.example.characters.Character;
 import org.example.characters.ICharacter;
-import org.example.events.ICharacterObserver;
+import org.example.characters.strategies.IAttackStrategy;
 
 public abstract class BendingDecorator extends Character {
     ICharacter character;
@@ -66,6 +66,11 @@ public abstract class BendingDecorator extends Character {
     @Override
     public boolean isEnemy() {
         return character.isEnemy();
+    }
+
+    @Override
+    public void setStrategy(IAttackStrategy strategy) {
+        this.character.setStrategy(strategy);
     }
 
     @Override

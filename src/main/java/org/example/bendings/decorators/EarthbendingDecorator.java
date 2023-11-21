@@ -17,6 +17,6 @@ public class EarthbendingDecorator extends BendingDecorator{
 
     @Override
     public void onEvent(String eventName) {
-        if(eventName.equals("Ersa")) character.setBendingPower("earth", character.getBendingPower("earth") + 100);
+        if(eventName.equals("earthquake")) character.setBendingPower("earth", character.getBendingPower("earth") + 17);
     }
 }

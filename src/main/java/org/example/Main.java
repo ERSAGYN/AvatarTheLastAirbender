@@ -1,14 +1,40 @@
 package org.example;
 
+import org.example.bendings.adapter.AirAdapter;
+import org.example.bendings.adapter.EarthAdapter;
 import org.example.bendings.adapter.FireAdapter;
 import org.example.bendings.adapter.WaterAdapter;
+import org.example.bendings.decorators.AirbendingDecorator;
+import org.example.bendings.decorators.EarthbendingDecorator;
 import org.example.bendings.decorators.FirebendingDecorator;
 import org.example.bendings.decorators.WaterbendingDecorator;
+import org.example.characters.Avatar;
 import org.example.characters.Character;
 import org.example.characters.ICharacter;
 import org.example.characters.characterFactory.CharacterFactory;
+import org.example.characters.strategies.AirStrategy;
+import org.example.characters.strategies.EarthStrategy;
+import org.example.characters.strategies.FireStrategy;
+import org.example.characters.strategies.WaterStrategy;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
 
 public class Main {
+    static ArrayList<ICharacter> enemies = new ArrayList<>();
+    static ArrayList<ICharacter> defeatedEnemies = new ArrayList<>();
+    static ArrayList<ICharacter> teachers = new ArrayList<>();
+    static String redCode = "\u001B[31m";
+    static String greenCode = "\u001B[32m";
+    static String yellowCode = "\u001B[33m";
+    static String blueCode = "\u001B[34m";
+    static String magentaCode = "\u001B[35m";
+    static String cyanCode = "\u001B[36m";
+    static String crossedOutCode = "\u001B[9m";
+    static String resetCode = "\u001B[0m";
+
     public static void main(String[] args) {
 
 //        ICharacter a = new Character();
@@ -56,16 +82,146 @@ public class Main {
 //        FireBendingAdapter(c).getBendingPower("fire") > f.g;
 //        c.getBendingPower("fire") > FirePowerAdapter(c, "water");
 
-        ICharacter zuko = new Character();
-        zuko = new FirebendingDecorator(zuko);
-        zuko.setName("Zuko");
-        zuko.setBendingPower("fire", 100);
+//        ICharacter zuko = new Character();
+//        zuko = new FirebendingDecorator(zuko);
+//        zuko.setName("Zuko");
+//        zuko.setBendingPower("fire", 100);
+//
+//        ICharacter katara = new Character();
+//        katara = new WaterbendingDecorator(katara);
+//        katara.setName("Katara");
+//        katara.setBendingPower("water", 100);
+//
+//        System.out.println(katara.getBendingPower("water") + " in water " + new WaterAdapter(zuko, "fire").getBendingPower() + " in water");
+//
+//        ICharacter avatar = Avatar.getInstance();
+//        avatar = new EarthbendingDecorator(avatar);
+//        avatar = new FirebendingDecorator(avatar);
+//        avatar.setBendingPower("fire",149);
+//        System.out.println(avatar.hasBending("fire") + " " + avatar.hasBending("earth") + " " + avatar.hasBending("water") + " " + avatar.hasBending("air"));
+//        avatar.setStrategy(new FireStrategy(avatar));
+//        System.out.println(avatar.attack(katara));
 
-        ICharacter katara = new Character();
-        katara = new WaterbendingDecorator(katara);
-        katara.setName("Katara");
-        katara.setBendingPower("water", 100);
 
-        System.out.println(katara.getBendingPower("water") + " in water " + new WaterAdapter(zuko, "fire").getBendingPower() + " in water");
+        ICharacter avatar = Avatar.getInstance();
+        avatar.setName("Aang");
+        avatar = new AirbendingDecorator(avatar);
+        avatar.setBendingPower("air", 10);
+        ICharacter ozai = CharacterFactory.createCharacter("Ozai", "fire", "enemy", 100);
+        teachers.add(CharacterFactory.createCharacter("Katara", "water", "teacher", 10));
+        teachers.add(CharacterFactory.createCharacter("Toph", "earth", "teacher", 10));
+        teachers.add(CharacterFactory.createCharacter("Gyatso", "air", "teacher", 10));
+        teachers.add(CharacterFactory.createCharacter("FriendlyZuko", "fire", "teacher", 10));
+        enemies.add(CharacterFactory.createCharacter("UnfriendlyZuko", "fire", "enemy", 10));
+        enemies.add(CharacterFactory.createCharacter("Long Feng", "earth", "enemy", 20));
+        enemies.add(CharacterFactory.createCharacter("Hama", "water", "enemy", 30));
+        enemies.add(CharacterFactory.createCharacter("Zhao", "fire", "enemy", 40));
+        enemies.add(CharacterFactory.createCharacter("Azula", "fire", "enemy", 70));
+        enemies.add(ozai);
+
+
+
+
+
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            if(defeatedEnemies.contains(ozai)) {
+                System.out.println("You successfully defeated all enemies and won the game!");
+                return;
+            }
+            int temp;
+            printOutCharacters();
+            info(avatar);
+            System.out.println(blueCode + "Choose action: \n1. Learn bending from teacher\n2. Fight enemy\n3. Exit");
+            switch (scanner.nextInt()) {
+                case 1:
+                    System.out.println("Select teacher to learn from (by number): ");
+                    temp = scanner.nextInt();
+                    ICharacter teacher = teachers.get(temp - 1);
+                    teacher.teach(avatar, getBending(teacher));
+
+                    break;
+                case 2:
+                    System.out.println(blueCode + "Choose bending strategy: \n1. Air\n2. Water\n3. Earth\n4. Fire");
+                    switch (scanner.nextInt()) {
+                        case 1:
+                            avatar.setStrategy(new AirStrategy(avatar));
+                            break;
+                        case 2:
+                            avatar.setStrategy(new WaterStrategy(avatar));
+                            break;
+                        case 3:
+                            avatar.setStrategy(new EarthStrategy(avatar));
+                            break;
+                        case 4:
+                            avatar.setStrategy(new FireStrategy(avatar));
+                            break;
+                        default: avatar.setStrategy(new AirStrategy(avatar));
+                    }
+                    System.out.println("Select enemy to fight (by number)");
+                    temp = scanner.nextInt();
+                    ICharacter enemy = enemies.get(temp - 1);
+                    if(avatar.attack(enemy)) {
+                        System.out.println("You win!");
+                        enemies.remove(0);
+                        defeatedEnemies.add(enemy);
+                    }
+                    else System.out.println("You lose");
+                    break;
+                case 3:
+                    return;
+            }
+        }
     }
+
+    public static String getBending(ICharacter character) {
+        if(character.hasBending("fire")) return "fire";
+        if(character.hasBending("water")) return "water";
+        if(character.hasBending("air")) return "air";
+        if(character.hasBending("earth")) return "earth";
+        return "non-bender";
+    }
+
+    public static void info(ICharacter character) {
+        System.out.println(magentaCode + "Character's bendings: ");
+        if(character.hasBending("fire")) System.out.println("Fire: " + character.getBendingPower("fire") + "(which is equal to "
+                + new WaterAdapter(character, "fire").getBendingPower() + " water, "
+                + new EarthAdapter(character, "fire").getBendingPower() + " earth,"
+                + new AirAdapter(character, "fire").getBendingPower() + " air"
+                + ")");
+        if(character.hasBending("water")) System.out.println("Water: " + character.getBendingPower("water") + "(which is equal to "
+                + new FireAdapter(character, "water").getBendingPower() + " fire, "
+                + new EarthAdapter(character, "water").getBendingPower() + " earth,"
+                + new AirAdapter(character, "water").getBendingPower() + " air"
+                + ")");
+        if(character.hasBending("air")) System.out.println("Air: " + character.getBendingPower("air") + "(which is equal to "
+                + new WaterAdapter(character, "air").getBendingPower() + " water, "
+                + new EarthAdapter(character, "air").getBendingPower() + " earth,"
+                + new FireAdapter(character, "air").getBendingPower() + " fire"
+                + ")");
+        if(character.hasBending("earth")) System.out.println("Earth: " + character.getBendingPower("earth") + "(which is equal to "
+                + new WaterAdapter(character, "earth").getBendingPower() + " water, "
+                + new FireAdapter(character, "earth").getBendingPower() + " fire,"
+                + new AirAdapter(character, "earth").getBendingPower() + " air"
+                + ")");
+    }
+
+    public static void printOutCharacters() {
+        System.out.println(greenCode + "Teachers: ");
+        for(int i = 0; i < teachers.size(); i++) {
+            ICharacter c = teachers.get(i);
+            System.out.println(greenCode + (i + 1) + ". " + c.getName() + " " + c.getBendingPower(""));
+        }
+
+        System.out.println(redCode + "Enemies: ");
+        for(int i = 0; i < defeatedEnemies.size(); i++) {
+            ICharacter c = defeatedEnemies.get(i);
+            System.out.println(crossedOutCode + redCode + c.getName() + " " + c.getBendingPower(getBending(c)) + ", " + getBending(c) + resetCode);
+        }
+        for(int i = 0; i < enemies.size(); i++) {
+            ICharacter c = enemies.get(i);
+            System.out.println(redCode + (i + 1) + ". " + c.getName() + " " + c.getBendingPower(getBending(c)) + ", " + getBending(c));
+        }
+    }
+
 }

@@ -1,6 +1,7 @@
 package org.example.characters;
 
 import org.example.bendings.IBending;
+import org.example.characters.strategies.IAttackStrategy;
 import org.example.events.Event;
 import org.example.events.ICharacterObserver;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 public class Character implements ICharacter, ICharacterObserver {
     String name;
+    IAttackStrategy strategy;
 
     public ArrayList<IBending> bendings = new ArrayList<IBending>();
 
@@ -72,9 +74,13 @@ public class Character implements ICharacter, ICharacterObserver {
     }
 
     @Override
+    public void setStrategy(IAttackStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    @Override
     public boolean attack(ICharacter character) {
-        System.out.print(name + " is not an enemy");
-        return false;
+        return strategy.attack(character);
     }
 
     public void setName(String name) {

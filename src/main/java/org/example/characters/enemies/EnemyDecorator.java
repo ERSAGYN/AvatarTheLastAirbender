@@ -3,6 +3,7 @@ package org.example.characters.enemies;
 import org.example.bendings.IBending;
 import org.example.characters.Character;
 import org.example.characters.ICharacter;
+import org.example.characters.strategies.IAttackStrategy;
 
 public class EnemyDecorator extends Character {
 
@@ -33,9 +34,8 @@ public class EnemyDecorator extends Character {
     }
 
     @Override
-    public boolean attack(ICharacter character) {
+    public void setStrategy(IAttackStrategy strategy) {
         //if()
-        return false;
     }
 
     @Override

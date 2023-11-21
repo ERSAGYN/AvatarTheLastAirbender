@@ -19,6 +19,6 @@ public class AirbendingDecorator extends BendingDecorator {
 
     @Override
     public void onEvent(String eventName) {
-        if(eventName.equals("Ersa")) character.setBendingPower("air", character.getBendingPower("air") + 10);
+        if(eventName.equals("storm")) character.setBendingPower("air", character.getBendingPower("air") + 18);
     }
 }

@@ -1,6 +1,7 @@
 package org.example.characters;
 
 import org.example.bendings.IBending;
+import org.example.characters.strategies.IAttackStrategy;
 
 public interface ICharacter {
     void addBending(IBending bending);
@@ -8,6 +9,7 @@ public interface ICharacter {
     void teach(ICharacter character, String bendingName);
 
     boolean isEnemy();
+    void setStrategy(IAttackStrategy strategy);
     boolean attack(ICharacter character);
     void setName(String name);
     String getName();

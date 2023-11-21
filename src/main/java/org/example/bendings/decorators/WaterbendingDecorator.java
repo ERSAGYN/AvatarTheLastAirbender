@@ -17,6 +17,6 @@ public class WaterbendingDecorator extends BendingDecorator{
 
     @Override
     public void onEvent(String eventName) {
-        if(eventName.equals("Ersa")) character.setBendingPower("water", character.getBendingPower("water") + 10);
+        if(eventName.equals("new moon")) character.setBendingPower("water", character.getBendingPower("water") + 21);
     }
 }

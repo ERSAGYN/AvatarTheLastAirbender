@@ -18,6 +18,8 @@ public class FirebendingDecorator extends BendingDecorator {
 
     @Override
     public void onEvent(String eventName) {
-        if(eventName.equals("Ersa")) character.setBendingPower("fire", character.getBendingPower("fire") + 200);
+        if(eventName.equals("solar eclipse")) character.setBendingPower("fire", character.getBendingPower("fire") -30);
+        if(eventName.equals("sozins comet")) character.setBendingPower("fire", character.getBendingPower("fire") + 20);
+
     }
 }

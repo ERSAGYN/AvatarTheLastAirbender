@@ -1,8 +1,10 @@
 package org.example.characters.teachers;
 
 import org.example.bendings.IBending;
+import org.example.bendings.decorators.DecoratorFactory;
 import org.example.characters.Character;
 import org.example.characters.ICharacter;
+import org.example.characters.strategies.IAttackStrategy;
 
 public class TeacherDecorator extends Character {
 
@@ -17,7 +19,7 @@ public class TeacherDecorator extends Character {
 
     @Override
     public double getBendingPower(String bendingName) {
-        return character.getBendingPower(bendingName);
+        return teachingSkills;
     }
 
     @Override
@@ -48,7 +50,10 @@ public class TeacherDecorator extends Character {
 
     @Override
     public void teach(ICharacter character, String bendingName) {
-        if(hasBending(bendingName)) character.setBendingPower(bendingName, character.getBendingPower(bendingName) + teachingSkills);
+        if(hasBending(bendingName)) {
+            if(character.hasBending(bendingName)) character.setBendingPower(bendingName, character.getBendingPower(bendingName) + teachingSkills);
+            else character = DecoratorFactory.createDecorator(bendingName,character);
+        }
         else System.out.println(this.character.getName() + " teacher doesn't have " + bendingName + " bending");
     }
 
@@ -58,9 +63,8 @@ public class TeacherDecorator extends Character {
     }
 
     @Override
-    public boolean attack(ICharacter character) {
-        System.out.println(this.character.getName() + " is not enemy!");
-        return true;
+    public void setStrategy(IAttackStrategy strategy) {
+
     }
 
     @Override
