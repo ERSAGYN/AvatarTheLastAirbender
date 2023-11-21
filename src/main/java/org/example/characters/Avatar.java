@@ -4,7 +4,6 @@ public class Avatar extends Character{
     private static Avatar instance;
 
     private Avatar() {
-        // Private constructor to prevent instantiation
     }
 
     public static Avatar getInstance() {
@@ -22,6 +21,6 @@ public class Avatar extends Character{
 
     @Override
     public void onEvent(String eventName) {
-        if(eventName.equals("Ersa")) this.setBendingPower("air", this.getBendingPower("air") + 10);
+        if(eventName.equals("test")) this.setBendingPower("air", this.getBendingPower("air") + 10);
     }
 }

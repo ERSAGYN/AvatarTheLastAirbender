@@ -14,6 +14,7 @@ public class Event {
     }
 
     public static void makeEvent(String eventName) {
+        System.out.println(eventName);
         for(ICharacterObserver observer: observers) {
             observer.onEvent(eventName);
         }

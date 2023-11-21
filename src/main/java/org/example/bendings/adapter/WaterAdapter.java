@@ -30,11 +30,11 @@ public class WaterAdapter implements IBending {
 
     @Override
     public void setBendingPower(double bendingPower) {
-
+        character.setBendingPower(bending, bendingPower);
     }
 
     @Override
     public String getBendingName() {
-        return null;
+        return character.getName();
     }
 }

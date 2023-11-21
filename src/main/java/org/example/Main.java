@@ -16,16 +16,20 @@ import org.example.characters.strategies.AirStrategy;
 import org.example.characters.strategies.EarthStrategy;
 import org.example.characters.strategies.FireStrategy;
 import org.example.characters.strategies.WaterStrategy;
+import org.example.events.Event;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 
 
 public class Main {
+    static Random random = new Random();
     static ArrayList<ICharacter> enemies = new ArrayList<>();
     static ArrayList<ICharacter> defeatedEnemies = new ArrayList<>();
     static ArrayList<ICharacter> teachers = new ArrayList<>();
+    static ArrayList<String> events = new ArrayList<>();
     static String redCode = "\u001B[31m";
     static String greenCode = "\u001B[32m";
     static String yellowCode = "\u001B[33m";
@@ -119,7 +123,11 @@ public class Main {
         enemies.add(CharacterFactory.createCharacter("Azula", "fire", "enemy", 70));
         enemies.add(ozai);
 
-
+        events.add("storm");
+        events.add("earthquake");
+        events.add("solar eclipse");
+        events.add("sozins comet");
+        events.add("new moon");
 
 
 
@@ -174,6 +182,9 @@ public class Main {
                 case 4:
                     return;
             }
+            System.out.println(yellowCode + "NEW EVENT: " );
+            Event.makeEvent(events.get(random.nextInt(5)));
+            System.out.println(resetCode);
         }
     }
 
